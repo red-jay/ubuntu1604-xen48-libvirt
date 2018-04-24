@@ -14,8 +14,14 @@ export DEBEMAIL="hewt1ojkif@gmail.com"
 
 libvirt_dsc='http://security.debian.org/debian-security/pool/updates/main/libv/libvirt/libvirt_3.0.0-4+deb9u3.dsc'
 lv="${libvirt_dsc##*/}"
+dv=${lv##*-}
+dv=${dv%.dsc}
+ov=${lv%-$dv*}
+upath=${libvirt_dsc%$lv}
 
 curl -LO "${libvirt_dsc}"
+curl -LO "${upath}${ov}.orig.tar.xz"
+curl -LO "${upath}${ov}-${dv}.debian.tar.xz"
 
 cat "${lv}"
 
