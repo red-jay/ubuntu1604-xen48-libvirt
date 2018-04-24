@@ -12,4 +12,17 @@ srcdir=$(pwd)
 export DEBFULLNAME="RJ Bergeron"
 export DEBEMAIL="hewt1ojkif@gmail.com"
 
-backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y http://security.debian.org/debian-security/pool/updates/main/libv/libvirt/libvirt_3.0.0-4+deb9u3.dsc
+libvirt_dsc='http://security.debian.org/debian-security/pool/updates/main/libv/libvirt/libvirt_3.0.0-4+deb9u3.dsc'
+lv="${libvirt_dsc##*/}"
+
+curl -LO "${libvirt_dsc}"
+
+gpg --import /usr/share/keyrings/debian-keyring.gpg
+
+gpg --verify "${lv}"
+
+cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' > "${lv}.tmp"
+
+gpg --no-use-agent --no-tty --trusted-key 0x7D1110294E694719 --passphrase-file "${GPG_PASSFILE[0]}" "${lv}.tmp" > "${lv}"
+
+backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}"
