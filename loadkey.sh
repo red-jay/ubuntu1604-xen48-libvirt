@@ -12,11 +12,5 @@ set +x
 passphrase=$(mktemp /dev/shm/pass.XXXXXX)
 echo "${GPG_PASS}" > "${passphrase}"
 
-gpg=$(which gpg)
-gpg2=$(which gpg2)
-
-rm "${gpg}"
-ln -sf "${gpg2}" "${gpg}"
-
 gpg -K
 gpg -k
