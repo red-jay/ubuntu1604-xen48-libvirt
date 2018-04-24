@@ -9,9 +9,6 @@ set +x
   echo "-----END PGP PRIVATE KEY BLOCK-----"
 } | gpg --import || true
 
-gpg -K
-gpg -k
-
 passphrase=$(mktemp /dev/shm/pass.XXXXXX)
 echo "${GPG_PASS}" > "${passphrase}"
 
@@ -20,3 +17,6 @@ gpg2=$(which gpg2)
 
 rm "${gpg}"
 ln -sf "${gpg2}" "${gpg}"
+
+gpg -K
+gpg -k
