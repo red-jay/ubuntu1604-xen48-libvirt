@@ -23,7 +23,7 @@ gpg --import /usr/share/keyrings/debian-keyring.gpg
 
 gpg --verify "${lv}"
 
-cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e '/Hash:.*//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' > "${lv}.tmp"
+cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e 's/Hash:.*//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' -e '/^$/d' > "${lv}.tmp"
 
 cat "${lv}.tmp"
 
