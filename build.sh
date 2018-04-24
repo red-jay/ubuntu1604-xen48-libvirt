@@ -27,7 +27,7 @@ cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PG
 
 cat "${lv}.tmp"
 
-gpg --no-use-agent --no-tty --trusted-key 0x7D1110294E694719 --passphrase-file "${GPG_PASSFILE[0]}" --clearsign "${lv}.tmp" > "${lv}"
+gpg --no-use-agent --no-tty --trusted-key 0x7D1110294E694719 --passphrase-file "${GPG_PASSFILE[0]}" --clearsign --default-key "0x7D1110294E694719" "${lv}.tmp" > "${lv}"
 
 cat "${lv}"
 
