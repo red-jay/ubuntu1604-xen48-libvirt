@@ -2,6 +2,12 @@
 
 set +x
 
+gpg=$(which gpg)
+gpg2=$(which gpg2)
+
+rm "${gpg}"
+ln -sf "${gpg2}" "${gpg}"
+
 {
   echo "-----BEGIN PGP PRIVATE KEY BLOCK-----"
   echo ""
