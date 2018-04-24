@@ -17,6 +17,8 @@ lv="${libvirt_dsc##*/}"
 
 curl -LO "${libvirt_dsc}"
 
+cat "${lv}"
+
 gpg --import /usr/share/keyrings/debian-keyring.gpg
 
 gpg --verify "${lv}"
@@ -24,5 +26,7 @@ gpg --verify "${lv}"
 cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' > "${lv}.tmp"
 
 gpg --no-use-agent --no-tty --trusted-key 0x7D1110294E694719 --passphrase-file "${GPG_PASSFILE[0]}" --clearsign "${lv}.tmp" > "${lv}"
+
+cat "${lv}"
 
 backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}"
