@@ -25,16 +25,10 @@ curl -LO "${upath}${ov}-${dv}.debian.tar.xz"
 
 cat "${lv}"
 
-gpg --import /usr/share/keyrings/debian-keyring.gpg
-
-gpg --verify "${lv}"
+dscverify "${lv}"
 
 cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e 's/Hash:.*//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' -e '/^$/d' > "${lv}.tmp"
 
 cat "${lv}.tmp"
 
-gpg --no-use-agent --no-tty --trusted-key 0x7D1110294E694719 --passphrase-file "${GPG_PASSFILE[0]}" --clearsign --default-key "0x7D1110294E694719" < "${lv}.tmp" > "${lv}"
-
-cat "${lv}"
-
-backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}"
+# backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}"
