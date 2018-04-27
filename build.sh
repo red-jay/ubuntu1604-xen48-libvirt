@@ -27,8 +27,12 @@ cat "${lv}"
 
 dscverify "${lv}"
 
-cat "${lv}" | iconv -f UTF8//IGNORE -t ASCII//TRANSLIT | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//' -e 's/Hash:.*//' -e '/-----BEGIN PGP SIGNATURE-----/,/-----END PGP SIGNATURE-----/d' -e '/^$/d' > "${lv}.tmp"
+dpkg-source -x "${lv}"
 
-cat "${lv}.tmp"
+cp patches/apparmor-privs.patch "${ov/_/-}/debian/patches/rj_apparmor.patch"
 
-# backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}"
+echo "rj_apparmor.patch" >> "${ov/_/-}/debian/patches/series"
+
+dpkg-source -b "${ov/_/-}/"
+
+#backportpackage -d xenial -u ppa:notarrjay/stretch-xen-on-xenial -y "${lv}" -S '~ppa2'

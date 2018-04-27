@@ -1,0 +1,35 @@
+diff -uNr libvirt-3.0.0/examples/apparmor/usr.sbin.libvirtd libvirt-3.0.0-patched/examples/apparmor/usr.sbin.libvirtd
+--- libvirt-3.0.0/examples/apparmor/usr.sbin.libvirtd	2018-04-27 17:04:53.000000000 +0000
++++ libvirt-3.0.0-patched/examples/apparmor/usr.sbin.libvirtd	2018-04-27 17:11:00.592886769 +0000
+@@ -1,4 +1,3 @@
+-# Last Modified: Mon Apr  5 15:03:58 2010
+ #include <tunables/global>
+ @{LIBVIRT}="libvirt"
+ 
+@@ -36,6 +35,11 @@
+   network inet6 dgram,
+   network packet dgram,
+   network packet raw,
++  network netlink,
++
++  dbus bus=system,
++  signal,
++  ptrace,
+ 
+   # Very lenient profile for libvirtd since we want to first focus on confining
+   # the guests. Guests will have a very restricted profile.
+@@ -80,12 +84,12 @@
+    network inet stream,
+ 
+    /dev/net/tun rw,
+-   /etc/qemu/** r,
++   /etc/qemu/** r, 
+    owner @{PROC}/*/status r,
+ 
+    /usr/{lib,lib64,lib/qemu,libexec}/qemu-bridge-helper rmix,
+   }
+-  
++
+   # Site-specific additions and overrides. See local/README for details.
+   #include <local/usr.sbin.libvirtd>
+ }
