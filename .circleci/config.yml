@@ -12,5 +12,5 @@ jobs:
           command: ./loadkey.sh
       - run:
           name: submit libvirt build
-          command: ./build.sh
+          command: FORCE_BUILD=true ./build.sh
           no_output_timeout: 3600
