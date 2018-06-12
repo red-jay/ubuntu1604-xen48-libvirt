@@ -35,7 +35,8 @@ downstream_version=${downstream_version# }
 downstream_version=${downstream_version% }
 
 # exit with success if we already have a matching upstream
-case "${downstream_version}" in
+# FORCE_BUILD is here so we can easily make this never match ;)
+case "${FORCE_BUILD}${downstream_version}" in
   "${upstream_version}"*) exit 0 ;;
   *) : ;;
 esac
